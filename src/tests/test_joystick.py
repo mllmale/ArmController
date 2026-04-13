@@ -24,7 +24,7 @@ def main():
 
         tela.fill((15, 15, 15))
 
-        if dados['status'] == 'conectado':
+        if 'conectado' in dados['status']:
             cor_texto = (0, 255, 100)
 
             textos = [
