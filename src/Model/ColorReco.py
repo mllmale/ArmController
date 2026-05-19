@@ -31,11 +31,8 @@ class ColorReco:
             for cnt in contours:
                 if cv2.contourArea(cnt) > 500:
                     x, y, w, h = cv2.boundingRect(cnt)
-
                     cv2.rectangle(img, (x, y), (x + w, y + h), color_value, 2)
-
                     cv2.putText(img, name, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.7, color_value, 2)
-
                     center_x = x + w // 2
                     center_y = y + h // 2
                     cv2.circle(img, (center_x, center_y), 5, (255, 255, 255), -1)
@@ -44,19 +41,21 @@ class ColorReco:
         return img, centers
 
 
-# Inicialização da Câmera
-# Lembre-se de mudar de 0 para 2 ou -1 se o Linux estiver bloqueando a câmera
-cap = cv2.VideoCapture(0)
-detector = ColorReco()
+if __name__ == "__main__":
+    cap = cv2.VideoCapture(0)
+    detector = ColorReco()
 
-while True:
-    _, img = cap.read()
-    processed_img, centers = detector.process_image(img)
+    while True:
+        ret, img = cap.read()
+        if not ret:
+            print("Câmera não encontrada.")
+            break
 
-    cv2.imshow('Deteccao de Cores para o Robo', processed_img)
+        processed_img, centers = detector.process_image(img)
+        cv2.imshow('Deteccao de Cores para o Robo', processed_img)
 
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
 
-cap.release()
-cv2.destroyAllWindows()
+    cap.release()
+    cv2.destroyAllWindows()

@@ -114,6 +114,7 @@ class RemoteControl:
                 "buttons": botoes_lidos,
                 "dpad": self.controller.get_hat(0) if self.controller.get_numhats() > 0 else (0, 0)
             }
+            print(dados)
             return dados
 
         except pg.error as e:
